@@ -1,3 +1,3 @@
-1    -- list all the tables of database passed
-2    as argument of mysql command
-3    SHOW TABLES;
+-- list all the tables of database passed
+-- as argument of mysql command
+SHOW TABLES;
