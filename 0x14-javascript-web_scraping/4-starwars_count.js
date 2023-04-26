@@ -1,24 +1,16 @@
 #!/usr/bin/node
 
-const axios = require('axios');
-const APIUrl = process.argv[2];
+const request = require('request');
+const apiUrl = process.argv[2];
 
-axios
-  .get(APIUrl)
-  .then((response) => {
-    const films = response.data.results;
-    let count = 0;
-    films.forEach((film) => {
-      const characters = film.characters;
-      const isPresent = characters.includes(
-        'https://swapi-api.hbtn.io/api/people/18/'
-      );
-      if (isPresent === true) {
-        count++;
-      }
-    });
-    console.log(count);
-  })
-  .catch((error) => {
-    console.log('code: ' + error.response.status);
-  });
+request(apiUrl, function (err, response, body) {
+  if (err) {
+    console.log(err);
+  } else if (body) {
+    const films = JSON.parse(body).results.filter(
+      x => x.characters.find(y => y.match(/\/people\/18\/?$/))
+    );
+
+    console.log(films.length);
+  }
+});
